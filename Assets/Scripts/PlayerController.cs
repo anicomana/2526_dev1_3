@@ -3,12 +3,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
+
     public float jumpForce = 40.0f;
     public float gravityModifier = 1.0f;
+
     private bool isOnGround = true;
     public bool gameOver = false;
 
+    private Animator playerAnim;
 
+    // Come faccio a far muovere il player a destra e sinistra?
     /*private float horizontalInput;
     public float moveForce = 10.0f;*/
 
@@ -16,11 +20,14 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
+
+        playerAnim = GetComponent<Animator>();
     }
 
 
     void Update()
     {
+        // Movimento orizzontale del player
         /*horizontalInput = Input.GetAxis("Horizontal");
         if (horizontalInput != 0)
         {
@@ -29,9 +36,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround) {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerAnim.SetTrigger("Jump_trig");
             isOnGround = false;
         }
-       
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -40,6 +48,7 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
         } else if (collision.gameObject.CompareTag("Obstacle")) {
             gameOver = true;
+            playerAnim.SetBool("Death_b", true);
             Debug.Log("Game Over!");
         }
     }
