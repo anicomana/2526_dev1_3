@@ -152,3 +152,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   moveLeftSpeed: -10
+  leftBound: -15

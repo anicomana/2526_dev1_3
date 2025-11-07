@@ -11,6 +11,7 @@ public class MoveObstacles : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerControllerScript = GameObject.Find("SimplePeople_Woman_Doctor_Black").GetComponent<PlayerController>();
+
     }
 
     void Update()
@@ -18,9 +19,9 @@ public class MoveObstacles : MonoBehaviour
        
         if (playerControllerScript.gameOver == false) {
             rb.linearVelocity = new Vector3(moveLeftSpeed, rb.linearVelocity.y, 0);
-        } else {
+        } else  {
             rb.linearVelocity = Vector3.zero;
-        } /* Perchè non si ferma lo sfondo if è gameOver == true? */
+        }
 
         if (transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))
         {
