@@ -56,24 +56,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.CompareTag("Ground")) {
-            isOnGround = true;
-            dirtParticles.Play();
-        } else if (collision.gameObject.CompareTag("ScoreZone")) {
-            scoreManager.AddScore(1);
-            isOnGround = true;
-            dirtParticles.Play();
-        } else if (collision.gameObject.CompareTag("Obstacle")) {
-            gameOver = true;
-            playerAnim.SetBool("Death_b", true);
-            playerAnim.SetInteger("DeathType_int", Random.Range(0, 2));
-            explosionParticles.Play();
-            dirtParticles.Stop();
-            int randomIndex = Random.Range(0, crashSound.Length);
-            playerAudio.PlayOneShot(crashSound[randomIndex], 1.0f);
-            Debug.Log("Game Over!");
+        switch (other.gameObject.tag) {
+            case "Ground":
+                isOnGround = true;
+                dirtParticles.Play();
+                break;
+
+            case "ScoreZone":
+                scoreManager.AddScore(1);
+                isOnGround = true;
+                dirtParticles.Play();
+                break;
+
+            case "Obstacle":
+                PlayerDeathAnimation();
+                dirtParticles.Stop();
+                Debug.Log("Game Over! Final Score: " + scoreManager.GetPlayerScore());
+                break;
         }
     }
 
@@ -85,5 +86,19 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             dirtParticles.Play();
         }
+    }
+
+    private void PlayerDeathAnimation()
+    {
+        gameOver = true;
+        int randomIndex = Random.Range(0, crashSound.Length);
+        playerAudio.PlayOneShot(crashSound[randomIndex], 1.0f);
+        playerAnim.SetBool("Death_b", true);
+        playerAnim.SetInteger("DeathType_int", Random.Range(0, 2));
+        explosionParticles.Play();
+        scoreManager.GameOverScreen();
+
+
+
     }
 }
