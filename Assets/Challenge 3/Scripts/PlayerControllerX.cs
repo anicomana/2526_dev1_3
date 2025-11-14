@@ -31,7 +31,6 @@ public class PlayerControllerX : MonoBehaviour
         // Apply a small upward force at the start of the game
         playerRb = GetComponent<Rigidbody>();
         playerRb.AddForce(Vector3.up * 1, ForceMode.Impulse);
-
     }
 
     // Update is called once per frame
@@ -55,10 +54,8 @@ public class PlayerControllerX : MonoBehaviour
         switch (other.gameObject.tag) {
             // if player collides with bomb, explode and set gameOver to true
             case "Bomb":
-                explosionParticle.Play();
-                playerAudio.PlayOneShot(explodeSound, 1.0f);
-                gameOver = true;
-                Debug.Log("Game Over! Final score");
+                GameOverAnimation();
+                scoreManager.GameOverScreen();
                 Destroy(other.gameObject);
                 break;
 
@@ -82,5 +79,13 @@ public class PlayerControllerX : MonoBehaviour
                 playerRb.AddForce(Vector3.down * floatForce * 0.5f, ForceMode.Impulse);
                 break;
         }
+    }
+
+    private void GameOverAnimation()
+    {
+                explosionParticle.Play();
+                playerAudio.PlayOneShot(explodeSound, 1.0f);
+                gameOver = true;
+                Debug.Log("Game Over! Final score: " + scoreManager.GetPlayerScore());
     }
 }
