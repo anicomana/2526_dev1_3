@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - Money
+  - Bomb
+  - Background
+  - Ceiling
+  - ScoreZone
   layers:
   - Default
   - TransparentFX
